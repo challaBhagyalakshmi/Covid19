@@ -1,0 +1,22 @@
+{
+  "name": "covid_19",
+  "version": "1.0.0",
+  "description": "## Introduction:",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "express": "^4.17.1",
+    "jest": "^25.3.0",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2",
+    "uuid": "^7.0.3"
+  }
+}
