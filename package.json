@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +18,14 @@
     "nodemon": "^2.0.3",
     "supertest": "^4.0.2",
     "uuid": "^7.0.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/challaBhagyalakshmi/Covid19.git"
+  },
+  "bugs": {
+    "url": "https://github.com/challaBhagyalakshmi/Covid19/issues"
+  },
+  "homepage": "https://github.com/challaBhagyalakshmi/Covid19#readme"
 }
