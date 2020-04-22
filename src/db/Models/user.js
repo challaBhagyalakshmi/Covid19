@@ -10,11 +10,11 @@ const User = sequelize.define("users", {
     primaryKey: false,
     uniqueKey: false
   },
-  id: {
-    type: Sequelize.UUID,
+  pass: {
+    type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: Sequelize.UUIDV4,
-    primaryKey: true,
+    defaultValue: null,
+    primaryKey: false,
     uniqueKey: false
   },
   email: {
