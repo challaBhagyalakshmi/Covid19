@@ -1,5 +1,5 @@
 const http = require("http");
-const app = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/routes/app.js");
+const app = require("./api/Middlewares/app.js/index.js");
 
 const server = http.createServer(app);
 server.listen(2019, () => {
