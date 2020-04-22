@@ -1,11 +1,13 @@
 const express = require("express");
-const sequelize = require("sequelize");
+const Sequelize = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
 const router = express.Router();
-const recovered = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/recovered.js");
+const sequelize = Sequelize.sequelize;
 
 router.get("/top10", (req, res) => {
   sequelize
-    .query("select * from deaths order by no_of_cases asc limit 10")
+    .query(
+      "select country_name,no_of_cases from recovered_cases r,countries c where c.country_code=r.country_code order by no_of_cases asc limit 10"
+    )
     .then(data => {
       res.send(JSON.stringify(data));
       res.status(200);
