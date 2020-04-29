@@ -1,5 +1,5 @@
 const http = require("http");
-const app = require("./api/Middlewares/app.js/index.js");
+const app = require("./api/Middlewares/app.js");
 
 const server = http.createServer(app);
 server.listen(2019, () => {
