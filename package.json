@@ -13,9 +13,14 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
+    "csv-stringify": "^5.4.3",
     "express": "^4.17.1",
     "jest": "^25.3.0",
     "nodemon": "^2.0.3",
+    "pg": "^8.0.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.7",
     "supertest": "^4.0.2",
     "uuid": "^7.0.3"
   },
