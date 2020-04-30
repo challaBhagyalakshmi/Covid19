@@ -5,17 +5,11 @@ const Country = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/c
 const country = Country.country;
 const sequelize = connection.sequelize;
 const Confirm = sequelize.define("confirm_cases", {
-  No_of_cases: {
+  "4/28/20": {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: false,
     defaultValue: null
-  },
-  confirm_id: {
-    type: Sequelize.UUID,
-    allowNull: false,
-    primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
   },
   createdAt: {
     type: Sequelize.DATE,
@@ -34,9 +28,16 @@ country.hasMany(Confirm, {
   foreignKey: "country_code",
   foreignKeyConstraint: true
 });
-Confirm.belongsTo(country, {
-  foreignKey: "country_code"
-});
-Confirm.sync();
+Confirm.belongsTo(country, { foreignKey: "country_code" });
+const data = 4;
+Confirm.sync({ force: true })
+  .then(function() {
+    return Confirm.create({
+      "4/29/20": data
+    });
+  })
+  .then(data => {
+    console.log(JSON.stringify(data));
+  });
 
 module.exports = { Confirm };
