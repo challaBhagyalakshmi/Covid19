@@ -4,14 +4,19 @@ const router = express.Router();
 const sequelize = Sequelize.sequelize;
 
 router.get("/top10", (req, res) => {
-  sequelize
+  try {
+    sequelize
     .query(
-      "select country_name,no_of_cases from countries c,confirm_cases d where c.country_code=d.country_code order by no_of_cases asc limit 10"
+      "select country_name,no_of_cases from countries c,confirm_cases d where c.country_code=d.country_code order by "4/28/20" desc limit 10"
     )
     .then(data => {
       res.send(JSON.stringify(data));
       res.status(200);
     });
+  } catch (error) {
+    console.log(error);
+  }
+  
 });
 
 module.exports = { router };
