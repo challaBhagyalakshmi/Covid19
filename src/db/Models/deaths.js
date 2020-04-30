@@ -5,17 +5,11 @@ const Country = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/c
 const country = Country.country;
 const sequelize = connection.sequelize;
 const Death = sequelize.define("deaths", {
-  No_of_cases: {
+  "4/28/20": {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: true,
     primaryKey: false,
     defaultValue: null
-  },
-  death_id: {
-    type: Sequelize.UUID,
-    allowNull: false,
-    primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
   },
   createdAt: {
     type: Sequelize.DATE,
@@ -37,6 +31,6 @@ country.hasMany(Death, {
 Death.belongsTo(country, {
   foreignKey: "country_code"
 });
-Death.sync();
+Death.sync({ force: true });
 
 module.exports = { Death };
