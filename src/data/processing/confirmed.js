@@ -1,26 +1,23 @@
 const csv = require("csv-parser");
 const fs = require("fs");
 const confirm = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/confirm.js");
-const map = require("/Users/bhagyalakshmi/Documents/COVID_19/src/data/processing/mapping.js");
-const mapp = map.Data;
 const Confirm = confirm.Confirm;
 fs.createReadStream(
-  "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/confirmed_cases_in_global.csv"
+  "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/confirmed.csv"
 )
   .pipe(csv())
   .on("data", row => {
-    country = row.country;
-    result = mapp.country;
-    total_cases = row.total_cases;
+    const data = row["4/28/20"];
     Confirm.sync()
-      .then(() => {
+      .then(function() {
         return Confirm.create({
-          country_code: country,
-          No_of_cases: total_case
+          "4/28/20": data
         });
       })
-      .then(data => {
-        console.log(data);
+      .then(dat => {
+        console.log(JSON.stringify(dat));
       });
   })
-  .on("end", () => console.log("csv file successfully processed"));
+  .on("end", () => {
+    console.log("csv file successfully processed");
+  });
