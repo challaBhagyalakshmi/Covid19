@@ -19,4 +19,3 @@ fs.createReadStream(
       });
   })
   .on("end", () => console.log("csv file successfully processed"));
-///Users/bhagyalakshmi/Documents/COVID_19/src/data/processing/recovered_export.js
