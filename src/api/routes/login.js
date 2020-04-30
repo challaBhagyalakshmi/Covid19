@@ -20,14 +20,14 @@ router.post("/login", (req, res) => {
           var token = jwt.sign(JSON.parse(JSON.stringify(user)), "secret", {
             expiresIn: 10000
           });
-          jwt.verify(token, "secret", (err, data) => {
+          jwt.verify(token, "coivid", (err, data) => {
             console.log(err, data);
           });
           res.json({ success: true, token: "JWT " + token });
         } else {
           res.status(401).send({
             success: false,
-            msg: "Authentication failed. Wrong password."
+            msg: "Authentication failed."
           });
         }
       });
