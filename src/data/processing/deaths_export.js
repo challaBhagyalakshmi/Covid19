@@ -1,26 +1,24 @@
 const csv = require("csv-parser");
 const fs = require("fs");
 const death = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/deaths.js");
-const map = require("/Users/bhagyalakshmi/Documents/COVID_19/src/data/processing/mapping.js");
-const Death = death.Death;
-const mapp = map.Data;
+const deaths = death.Death;
 fs.createReadStream(
-  "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/deaths_global.csv"
+  "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/confirmed.csv"
 )
   .pipe(csv())
   .on("data", row => {
-    country = row.country;
-    result = mapp.country;
-    total_cases = row.total_cases;
-    Death.sync()
-      .then(() => {
-        return Death.create({
-          country_code: result,
-          No_of_cases: total_case
+    const data = row["4/28/20"];
+    deaths
+      .sync()
+      .then(function() {
+        return deaths.create({
+          "4/28/20": data
         });
       })
       .then(data => {
-        console.log(data);
+        console.log(JSON.stringify(data));
       });
   })
-  .on("end", () => console.log("csv file successfully processed"));
+  .on("end", () => {
+    console.log("csv file successfully processed");
+  });
