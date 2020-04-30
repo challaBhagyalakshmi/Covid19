@@ -5,17 +5,11 @@ const Country = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/c
 const country = Country.country;
 const sequelize = connection.sequelize;
 const Recover = sequelize.define("recovered_cases", {
-  No_of_cases: {
+  "4/28/20": {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: false,
     defaultValue: null
-  },
-  recover_id: {
-    type: Sequelize.UUID,
-    allowNull: false,
-    primaryKey: true,
-    defaultValue: Sequelize.UUIDV4
   },
   createdAt: {
     type: Sequelize.DATE,
@@ -37,6 +31,6 @@ country.hasMany(Recover, {
 Recover.belongsTo(country, {
   foreignKey: "country_code"
 });
-Recover.sync();
+Recover.sync({ force: true });
 
 module.exports = { Recover };
