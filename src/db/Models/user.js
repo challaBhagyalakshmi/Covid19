@@ -1,5 +1,4 @@
 const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
-const uuid = require("uuid/v4");
 const Sequelize = require("sequelize");
 const sequelize = connection.sequelize;
 const User = sequelize.define("users", {
@@ -22,14 +21,10 @@ const User = sequelize.define("users", {
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: true
-  },
-  phno: {
-    type: Sequelize.BIGINT,
-    allowNull: false,
-    defaultValue: null,
-    primaryKey: false,
-    uniqueKey: false
+    uniqueKey: true,
+    validate: {
+      isEmail: true
+    }
   },
   admin: {
     type: Sequelize.BOOLEAN,
@@ -53,18 +48,5 @@ const User = sequelize.define("users", {
     uniqueKey: false
   }
 });
-
-User.sync({ force: true })
-  .then(() => {
-    return User.create({
-      name: "bhagya",
-      email: "bhagya@gmail.com",
-      phno: 8923242242,
-      admin: true
-    });
-  })
-  .then(data => {
-    console.log(JSON.stringify(data));
-  });
 
 module.exports = { User };
