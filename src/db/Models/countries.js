@@ -10,13 +10,6 @@ const country = sequelize.define("countries", {
     primaryKey: false,
     uniqueKey: true
   },
-  country_code: {
-    type: Sequelize.UUID,
-    allowNull: false,
-    defaultValue: Sequelize.UUIDV4,
-    primaryKey: true,
-    uniqueKey: false
-  },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
@@ -35,4 +28,4 @@ const country = sequelize.define("countries", {
 
 country.sync();
 
-module.exports = { Country };
+module.exports = { country };
