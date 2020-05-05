@@ -2,8 +2,10 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const user = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/user.js");
+const auth = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/Middlewares/auth.js");
+const Auth = auth.auth;
 const User = user.User;
-router.post("/login", auth,(req, res) => {
+router.post("/login", Auth, async (req, res) => {
   try {
     const user = credential(req.body.email, req.body.pass);
     const token = await generatetoken();
@@ -16,11 +18,11 @@ router.post("/login", auth,(req, res) => {
 });
 
 async function credential(email, pass) {
-  const user = sequelize.sync().then(function() {
+  const user = sequelize.sync().then(function () {
     return User.findAll({
       where: {
-        email: email
-      }
+        email: email,
+      },
     });
   });
   if (!user) {
