@@ -9,35 +9,36 @@ const Confirm = sequelize.define("confirm_cases", {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: false,
-    defaultValue: null
+    defaultValue: null,
+    uniquekey: false,
+  },
+  country_name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    primaryKey: false,
+    defaultValue: false,
+    uniquekey: false,
   },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
     primaryKey: false,
-    defaultValue: null
+    defaultValue: null,
+    uniquekey: false,
   },
   updatedAt: {
     type: Sequelize.DATE,
     allowNull: false,
     primaryKey: false,
-    defaultValue: null
-  }
+    defaultValue: null,
+    uniquekey: false,
+  },
 });
 country.hasMany(Confirm, {
   foreignKey: "country_code",
-  foreignKeyConstraint: true
+  foreignKeyConstraint: true,
 });
 Confirm.belongsTo(country, { foreignKey: "country_code" });
-const data = 4;
-Confirm.sync({ force: true })
-  .then(function() {
-    return Confirm.create({
-      "4/29/20": data
-    });
-  })
-  .then(data => {
-    console.log(JSON.stringify(data));
-  });
+Confirm.sync();
 
 module.exports = { Confirm };
