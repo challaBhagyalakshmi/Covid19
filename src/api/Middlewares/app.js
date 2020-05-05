@@ -14,8 +14,8 @@ app.use(bodyParser.json());
 app.use("/confirmed", confirm);
 app.use("/recovered", recover);
 app.use("/deaths", deaths);
-app.use("/signup", signup);
-app.use("/login", login);
+app.use("/users", signup);
+app.use("/users", login);
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type");
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
-    error: error.message
+    error: error.message,
   });
 });
 
