@@ -16,3 +16,5 @@ const auth = async (req, res, next) => {
     res.staus(401).send({ error: "please authenticate" });
   }
 };
+
+module.exports = { auth };
