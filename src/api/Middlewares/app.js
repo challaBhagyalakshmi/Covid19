@@ -8,12 +8,14 @@ const recover = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/routes/
 const deaths = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/routes/deaths_route.js");
 const login = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/routes/login.js");
 const signup = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/routes/signup.js");
+const upload_data = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/routes/adminupload.js");
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/confirmed", confirm);
 app.use("/recovered", recover);
 app.use("/deaths", deaths);
+app.use("/upload", upload_data);
 app.use("/users", signup);
 app.use("/users", login);
 app.use((req, res, next) => {
