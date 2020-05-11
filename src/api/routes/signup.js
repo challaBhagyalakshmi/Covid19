@@ -10,22 +10,22 @@ router.post("/signup", async (req, res) => {
   const pwd = req.body.pass;
   const hashed = await bcrypt.hash(pwd, 8);
   const email = req.body.email;
-  const user = sequelize.sync().then(function() {
-    return User.findOne(email);
+  const user = sequelize.sync().then(function () {
+    return User.findAll({ where: { email } });
   });
   if (!user) {
     res.send("user is already registered");
   } else {
     try {
       User.sync()
-        .then(function() {
+        .then(function () {
           return User.create({
             name: req.body.username,
             pass: hashed,
-            email: req.body.email
+            email: req.body.email,
           });
         })
-        .then(data => {
+        .then((data) => {
           res.status(200);
           res.send(JSON.stringify(data));
         });
