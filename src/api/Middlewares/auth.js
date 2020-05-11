@@ -10,9 +10,8 @@ const auth = async (req, res, next) => {
     const user = await User.findAll({ id: decoded.id });
 
     if (!user) {
-      throw new Error();
+      throw new Error("Invalid user!");
     }
-    //req.user = user;
     next();
   } catch (error) {
     res.staus(401).send({ error: "please authenticate" });
