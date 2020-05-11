@@ -22,10 +22,10 @@
     -Db design
         * Models
             1.users(name(unique key),user_id primary key,pass,email(unique key),admin)
-            2.countries(country_name(unique key),country_code uuid as primary key)
-            3.confirmed(dates(uniqueKey),country_code(foreignKey))
-            4.deaths(dates(uniqueKey),country_code(foreignKey))
-            5.recovered(dates(uniqueKey),country_code(foreignKey))
+            2.countries(country_name(unique key),country_code serial(primary key))
+            3.confirmed(id serial(pk),no_of_cases(lastday),country_code(foreign key references to country_code in countries table))
+            4.deaths(id serial(pk),no_of_cases(lastday),country_code(foreign key references to country_code in countries table))
+            5.recovered(id serial(pk),no_of_cases(lastday),country_code(foreign key references to country_code in countries table))
 
     -GET Routes
             * /totalconfirmed cases -> It will give the response of top 10 countries of whose having highest number of cases
@@ -84,7 +84,6 @@
             * /upload csv files->Admin can only upload csv files into the db
                     Request body:
                     {
-                        "name":"admin",
                         "email":"admin@gmail.com",
                         "pass":"passadmin"
                     }
@@ -92,5 +91,3 @@
                     Response body:{
                         "message" :"Invalid user"
                     }
-
-///Users/bhagyalakshmi/Documents/COVID_19/README.md
