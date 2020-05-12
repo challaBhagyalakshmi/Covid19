@@ -2,7 +2,6 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const connection = require("");
 const user = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/user.js");
 const User = user.User;
 
