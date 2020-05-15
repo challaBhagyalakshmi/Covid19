@@ -1,54 +1,31 @@
-const request = require("supertest");
-const app = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/Middlewares/app.js");
-const user = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/user.js");
-const User = user.User;
+onst request = require("supertest");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const user = require("../../src/db/Models/testdb/user");
 
-describe("post/users/login ", () => {
-  it("should login user and return auth token ", () => {
-    request(app)
-      .post("/users/login")
-      .send({
-        email: "user1@gmail.com",
-        pass: "user123",
-      })
-      .expect(200)
-      .expect((res) => {})
-      .end((err, res) => {
-        if (err) {
-          throw new err("Invalid User!");
-        }
-        User.findById(users.id)
-          .then((user) => {
-            expect(user.token).toHaveProperty("access", "auth");
-            expect(user.token).toHaveProperty("token", res.headers["x-auth"]);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
+const User = user.User;
+describe("Authenticating the user ", async () => {
+  beforeEach(async () => {
+    await User.destroy({ where: {}, truncate: true });
   });
-  it("should rejects the invalid login ", () => {
-    request(app)
+
+  test("should login the user if existed ", async () => {
+    await request(app)
       .post("/users/login")
       .send({
-        email: "user5@gmail.com",
-        pass: "pass900",
+        email: "user3@gmail.com",
+        pass: "user345",
       })
-      .expect(200)
-      .expect((res) => {
-        expect(res.headers["x-auth"].toBeUndefined());
+      .expect(200);
+  });
+
+  it("should not login nonexistent user ", async () => {
+    await request(app)
+      .post("/users/login")
+      .send({
+        email: "user8@gmail.com",
+        pass: "user9843",
       })
-      .end((error) => {
-        if (error) {
-          return error;
-        }
-        User.findById(users.id)
-          .then((user) => {
-            expect(user.token.length).toBe(0);
-          })
-          .catch((error) => {
-            return error;
-          });
-      });
+      .expect(400);
   });
 });
