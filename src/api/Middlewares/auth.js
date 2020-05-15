@@ -1,21 +1,28 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-dotenv.config();
-const user = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/user.js");
+const user = require("../../db/Models/user.js");
+
 const User = user.User;
 const auth = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, process.env.secret_key);
-    const user = await User.findAll({ id: decoded.id });
-
-    if (!user) {
-      throw new Error("Invalid user!");
-    }
+    const decoded = await jwt.verify(token, "covid19");
+    const user = await findUser(decoded);
+    req.user = user;
     next();
   } catch (error) {
-    res.staus(401).send({ error: "please authenticate" });
+    res.status(401).send({ error: "Please authenticate." });
   }
 };
 
+async function findUser(decoded) {
+  const user = await User.findOne({
+    where: {
+      id: decoded.id,
+    },
+  });
+  if (!user) {
+    throw new Error("Invalid user!");
+  }
+  return user;
+}
 module.exports = { auth };
