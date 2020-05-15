@@ -1,35 +1,31 @@
-const deaths = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/deaths.js");
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const fs = require("fs");
+const csv = require("csv-parser");
+const deaths = require("../../src/db/Models/testdb/deaths.js");
+const connection = require("../../src/db/config/testdbconn.js");
+
 const sequelize = connection.sequelize;
 const Deaths = deaths.Deaths;
 
-describe("Deaths model ", () => {
-  beforeEach(function() {
-    sequelize.drop({ force: true });
+describe("Deaths model ", async () => {
+  beforeEach(async function () {
+    await Deaths.destroy({ where: {}, truncate: true });
   });
-  it("inserting the new record", () => {
-    let value = 1;
-    fs.createReadStream(
-      "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/deaths.csv"
-    )
-      .on("data", row => {
-        const value = row["4/28/20"];
+
+  test("inserting the new record", async () => {
+    fs.createReadStream("../../src/data/csv_files/deaths.csv")
+      .on("data", async (row) => {
+        const value = await row["4/28/20"];
         sequelize
           .sync()
-          .then(function() {
-            Confirm.create({
-              "4/28/20": row["4/28/20"]
+          .then(function () {
+            Deaths.create({
+              no_of_cases_till_yesterday: row["4/28/20"],
             });
           })
-          .then(data => {
+          .then((data) => {
             expect(data["4/28/20"]).toBe(value);
-            expect(id).toBe(value);
           });
-        value = value + 1;
       })
       .on("end", () => {});
-  });
-  afterEach(function() {
-    sequelize.drop();
   });
 });
