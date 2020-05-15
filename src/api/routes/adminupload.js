@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const user = require("../../db/Models/user.js");
+const upload = require("../../data/processing/upload");
+
 
 const User = user.User;
 router.post("/upload", async (req, res) => {
@@ -9,6 +11,7 @@ router.post("/upload", async (req, res) => {
     const user = await findCredentials(req.body.email, req.body.pass);
     if (user) {
       if (user.admin == true) {
+        upload.main();
         res.send("successfully uploaded the files");
         res.status(200);
       } else {
