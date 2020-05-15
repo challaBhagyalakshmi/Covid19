@@ -1,17 +1,16 @@
 const csv = require("csv-parser");
 const Sequelize = require("sequelize");
 const fs = require("fs");
-const deaths = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/deaths.js");
-const country = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/countries.js");
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const deaths = require("../deaths.js");
+const country = require("../countries.js");
+const connection = require("../../config/connection.js");
+
 const Country = country.country;
 const Deaths = deaths.Death;
 const sequelize = connection.sequelize;
-var count = 0;
+
 async function foreign_deaths() {
-  fs.createReadStream(
-    "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/confirmes.csv"
-  )
+  fs.createReadStream("../../../data/csv_files/deaths.csv")
     .pipe(csv())
     .on("data", async (row) => {
       const country = await row.Country;
@@ -42,7 +41,6 @@ async function foreign_deaths() {
     })
     .on("end", () => {
       console.log("successfully csv is processed");
-      console.log(count);
     });
 }
 
