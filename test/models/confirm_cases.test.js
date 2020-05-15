@@ -1,35 +1,33 @@
-const confirm = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/confirm.js");
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const confirm = require("../../src/db/Models/testdb/confirm.js");
+const connection = require("../../src/db/config/testdbconn.js");
 const csv = require("csv-parser");
+const fs = require("fs");
+
 const sequelize = connection.sequelize;
 const Confirm = confirm.Confirm;
 
 describe("Confirmation model ", () => {
-  beforeEach(function() {
-    sequelize.drop({ force: true });
+  beforeEach(async function () {
+    await Confirm.destroy({ where: {}, truncate: true });
   });
-  it("testing the  confirmation model ", () => {
-    let value = 1;
-    fs.createReadStream(
-      "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/confirmed.csv"
-    )
-      .on("data", row => {
-        const value = row["4/28/20"];
+  test("testing the  confirmation model ", () => {
+    fs.createReadStream("../../src/data/csv_files/confirmed.csv")
+      .on("data", async (row) => {
+        const value = await row["4/28/20"];
         sequelize
           .sync()
-          .then(function() {
+          .then(function () {
             Confirm.create({
-              "4/28/20": row["4/28/20"]
+              no_of_cases_till_yesterday: row["4/28/20"],
             });
           })
-          .then(data => {
+          .then((data) => {
             expect(data["4/28/20"]).toBe(value);
           });
-        value = value + 1;
       })
       .on("end", () => {});
   });
-  afterEach(function() {
-    sequelize.drop();
+  afterEach(function () {
+    Confirm.destroy({ where: {}, truncate: true });
   });
 });
