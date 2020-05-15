@@ -1,16 +1,16 @@
 const csv = require("csv-parser");
 const Sequelize = require("sequelize");
 const fs = require("fs");
-const confirm = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/confirm.js");
-const country = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/countries.js");
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const confirm = require("../confirm.js");
+const country = require("../countries.js");
+const connection = require("../../config/connection.js");
+
 const Country = country.country;
 const Confirm = confirm.Confirm;
 const sequelize = connection.sequelize;
+
 async function foreign_confirm() {
-  fs.createReadStream(
-    "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/confirmes.csv"
-  )
+  fs.createReadStream("../../../data/csv_files/confirmes.csv")
     .pipe(csv())
     .on("data", async (row) => {
       const country = await row.Country;
@@ -41,7 +41,6 @@ async function foreign_confirm() {
     })
     .on("end", () => {
       console.log("successfully csv is processed");
-      console.log(count);
     });
 }
 
