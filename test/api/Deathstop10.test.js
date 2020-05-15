@@ -5,8 +5,6 @@ describe("Top 10 countries who is having highest deaths in world", () => {
   test("it should return top 10 countries ", () => {
     const response = request(app)
       .get("/deaths/top10")
-      .set("Authorization", "Bearer ${token}")
-      .send()
       .expect((res) => {
         expect(res.status).toBe(200);
         expect(res.body).toBe([
