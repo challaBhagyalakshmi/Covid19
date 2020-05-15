@@ -1,32 +1,54 @@
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
-const user = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/user.js");
+const connection = require("../../src/db/config/connection.js");
+const user = require("../../src/db/Models/testdb/user.js");
 const bcrypt = require("bcrypt");
 const User = user.User;
 const sequelize = connection.sequelize;
 
-describe("User model ", () => {
-  beforeEach(function() {
-    sequelize.drop({ force: true });
+describe("User model ", async () => {
+  beforeEach(async function () {
+    await User.destroy({ where: {}, truncate: true });
   });
-  it("inserting a new record ", () => {
+
+  test("inserting a new record ", async () => {
     const pwd = "pass456";
-    const hashed = bcrypt.hash(pwd, 8);
-    User.sync()
-      .then(function() {
+    const hashed = await bcrypt.hash(pwd, 8);
+    sequelize
+      .sync()
+      .then(function () {
         return User.create({
           name: "user2",
           pass: hashed,
-          email: "user2@gmail.com"
+          email: "user2@gmail.com",
         });
       })
-      .then(data => {
+      .then((data) => {
         expect(data.name).toBe("user2");
         expect(data.pass).toBe(hashed);
-        expect(data.pass).toBe("user2@gmail.com");
+        expect(data.email).toBe("user2@gmail.com");
         expect(data.admin).toBe(false);
       });
   });
-  afterEach(function() {
-    sequelize.drop();
+
+  it("it should fail if give invalid email ", async () => {
+    const user = {
+      name: "user9",
+      email: "user9jdjf",
+      pass: "user999",
+    };
+    sequelize
+      .sync()
+      .then(function () {
+        return user.create({
+          name: user.name,
+          email: user.email,
+          pass: user.pass,
+        });
+      })
+      .then((data) => {
+        expect(data.name).toBe("user2");
+        expect(data.pass).toBe(hashed);
+        expect(data.email).toBe("user2@gmail.com");
+        expect(data.admin).toBe(false);
+      });
   });
 });
