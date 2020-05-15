@@ -1,45 +1,40 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const dotenv = require("dotenv");
-dotenv.config();
+const jwt = require("jsonwebtoken");
 const router = express.Router();
-const user = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/user.js");
-const auth = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/Middlewares/auth.js");
-const Auth = auth.auth;
+const user = require("../../db/Models/user.js");
+
 const User = user.User;
-router.post("/login", Auth, async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
-    const user = credential(req.body.email, req.body.pass);
+    const user = await findCredentials(req.body.email, req.body.pass);
     const token = await generatetoken(user);
-    res.send({ user, token });
-    res.send(user);
+    res.send({ user: user, token: token });
     res.status(200);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send({ error: error.message });
   }
 });
 
-async function credential(email, pass) {
-  const user = sequelize.sync().then(function () {
-    return User.findAll({
-      where: {
-        email: email,
-      },
-    });
+async function findCredentials(email, pass) {
+  const user = await User.findOne({
+    where: {
+      email: email,
+    },
   });
   if (!user) {
-    throw new Error("login failed");
+    throw new Error("Invalid login!");
   }
-  const pwd = await bcrypt.hash(pass, 8);
-  const isMatch = await bcrypt.compare(pwd, user.pass);
+  const isMatch = await bcrypt.compare(pass, user.pass);
   if (!isMatch) {
     throw new Error("login failed");
   }
   return user;
 }
+
 async function generatetoken(user) {
-  const token = jwt.sign({ id: user.id }, process.env.secret_key);
+  const token = await jwt.sign({ id: user.id.toString() }, "covid19");
   return token;
 }
-
 module.exports = { router };
+
