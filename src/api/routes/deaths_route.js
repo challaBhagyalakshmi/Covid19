@@ -1,13 +1,15 @@
 const express = require("express");
-const Sequelize = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const Sequelize = require("../../db/config/connection.js");
 const router = express.Router();
+const Auth = require("../Middlewares/auth");
+const auth = Auth.auth;
 const sequelize = Sequelize.sequelize;
 
-router.get("/top10", (req, res) => {
+router.get("/top10", auth, async (req, res) => {
   try {
     sequelize
       .query(
-        "select country_name,no_of_cases from countries c,deaths d where c.id=d.country_code order by 4/28/20 desc limit 10"
+        "select c.country_name,d.no_of_cases_till_yesterday from countries c,deaths d where c.id=d.country_code order by no_of_cases_till_yesterday desc limit 10"
       )
       .then((data) => {
         res.send(JSON.stringify(data));
