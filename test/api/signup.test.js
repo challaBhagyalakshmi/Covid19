@@ -1,48 +1,55 @@
 const request = require("supertest");
-const login = require("/Users/bhagyalakshmi/Documents/COVID_19/src/api/routes/login.js");
-const user = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/user.js");
+const user = require("../../src/db/Models/testdb/user");
+const app = require("../../src/api/Middlewares/app");
+const bcrypt = require("bcrypt");
 const User = user.User;
 
-describe("signup ", () => {
-  it("create a new user ", () => {
+describe("Testcases for Signup ", async () => {
+  beforeEach(async () => {
+    await User.destroy({ where: {}, truncate: true });
+  });
+
+  test("it should create a new user ", async () => {
+    const pass = "pass123";
+    const hashed = await bcrypt.hash(pass, 8);
     request(app)
-      .post("/signup")
+      .post("/user/signup")
       .send({
-        email: "user3@gmail.com",
-        pass: "pass456",
+        name: "user1",
+        email: "user1@gmail.com",
+        pass: hashed,
       })
       .expect((res) => {
-        expect(res.headers["x-path"]).not.toBeNull();
-        expect(res.body.email).toBe(username);
-        expect(res.body.pass).toBe(pass);
+        expect(res.body.name).toBe("user1");
+        expect(res.body.email).toBe("user1@gmail.com");
+        expect(res.body.pass).toBe(hashed);
         expect(res.status).toBe(200);
-      })
-      .end((err) => {
-        if (err) {
-          throw new err();
-        }
-        User.findOne({ email }).then((user) => {
-          expect(user).not.toBeNull();
-          expect(user.pass).not.toBe(pass);
-        });
       });
   });
-  it("it should return validation is request is invalid ", () => {
+
+  test("it should have bad request if request is invalid", async () => {
+    const pass = "pass222";
+    const hashed = await bcrypt.hash(pass, 8);
     request(app)
-      .post("/signup")
+      .post("/user/signup")
       .send({
-        email: "adadndfjdf",
-        pass: "uiue90",
+        name: "user2",
+        email: "djkjdfdjf",
+        pass: hashed,
       })
       .expect(400);
   });
-  it("should not create a user if user is already existed ", () => {
-    const user = {
-      emai: "user2@gmail.com",
-      pass: "pass123",
-    };
-    User.findOne({ email }).then(() => {
-      request(app).post("/signup").expect(400);
-    });
+
+  test("should not create a user if user is already existed ", async () => {
+    const pass = "pass333";
+    const hashed = await bcrypt.hash(pass, 8);
+    request(app)
+      .post("/user/signup")
+      .send({
+        name: "user1",
+        email: "user1@gmail.com",
+        pass: hashed,
+      })
+      .expect(403);
   });
 });
