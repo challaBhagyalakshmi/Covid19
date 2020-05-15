@@ -1,6 +1,7 @@
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const connection = require("../config/connection.js");
 const Sequelize = require("sequelize");
 const sequelize = connection.sequelize;
+
 const User = sequelize.define("users", {
   name: {
     type: Sequelize.STRING,
@@ -21,7 +22,7 @@ const User = sequelize.define("users", {
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: true,
+    unique: true,
     validate: {
       isEmail: true
     }
