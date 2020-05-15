@@ -1,35 +1,31 @@
-const recover = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/recovered.js");
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const fs = require("fs");
+const csv = require("csv-parser");
+const recover = require("../../src/db/Models/testdb/recovered.js");
+const connection = require("../../src/db/config/testdbconn.js");
+
 const sequelize = connection.sequelize;
 const Recover = recover.Recover;
 
-describe("Recovered model ", () => {
-  beforeEach(function() {
-    sequelize.drop({ force: true });
+describe("Recovered model ", async () => {
+  beforeEach(async function () {
+    await Recover.destroy({ where: {}, truncate: true });
   });
-  it("inserting the new record into the recovered model", () => {
-    let value = 1;
-    fs.createReadStream(
-      "/Users/bhagyalakshmi/Documents/COVID_19/src/data/csv_files/deaths.csv"
-    )
-      .on("data", row => {
-        const value = row["4/28/20"];
+
+  test("inserting the new record into the recovered model", async () => {
+    fs.createReadStream("../../src/data/csv_files/deaths.csv")
+      .on("data", async (row) => {
+        const value = await row["4/28/20"];
         sequelize
           .sync()
-          .then(function() {
+          .then(function () {
             Recover.create({
-              "4/28/20": row["4/28/20"]
+              no_of_cases_till_yesterday: row["4/28/20"],
             });
           })
-          .then(data => {
+          .then((data) => {
             expect(data["4/28/20"]).toBe(value);
-            expect(id).toBe(value);
           });
-        value = value + 1;
       })
       .on("end", () => {});
-  });
-  afterEach(function() {
-    sequelize.drop();
   });
 });
