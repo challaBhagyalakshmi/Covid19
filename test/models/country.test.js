@@ -1,24 +1,33 @@
-const country = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/Models/countries.js");
-const connection = require("/Users/bhagyalakshmi/Documents/COVID_19/src/db/config/connection.js");
+const fs = require("fs");
+const csv = require("csv-parser");
+const country = require("../../src/db/Models/testdb/countries.js");
+const connection = require("../../src/db/config/testdbconn.js");
+
 const sequelize = connection.sequelize;
 const Country = country.country;
 
-describe("Testing for countries model", () => {
-  beforeEach(function() {
-    sequelize.drop({ force: true });
+describe("Testing for countries model", async () => {
+  beforeEach(async function () {
+    await Country.destroy({ where: {}, truncate: true });
   });
-  it("testing countries model ", () => {
-    Country.sync()
-      .then(function() {
-        Country.create({
-          country_name: "india"
-        });
+
+  test("insert a new records ", async () => {
+    fs.createReadStream("../../src/data/csv_files/countries.csv")
+      .pipe(csv())
+      .on("data", async (row) => {
+        const data = Object.values(row);
+        const dat = data[0];
+        sequelize
+          .sync()
+          .then(function () {
+            return Country.create({
+              country_name: dat,
+            });
+          })
+          .then((data) => {
+            expect(data.country_name).toBe(dat);
+          });
       })
-      .then(data => {
-        expect(data.country_name).toBe("india");
-      });
-  });
-  afterEach(function() {
-    sequelize.drop();
+      .on("end", () => {});
   });
 });
