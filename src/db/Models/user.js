@@ -8,14 +8,14 @@ const User = sequelize.define("users", {
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: false
+    unique: false
   },
   pass: {
     type: Sequelize.STRING,
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: false
+    unique: false
   },
   email: {
     type: Sequelize.STRING,
@@ -32,21 +32,21 @@ const User = sequelize.define("users", {
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: false
+    unique: false
   },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: false
+    unique: false
   },
   updatedAt: {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: false
+    unique: false
   }
 });
 
