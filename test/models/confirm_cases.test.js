@@ -13,7 +13,7 @@ describe("Confirmation model ", () => {
   test("testing the  confirmation model ", () => {
     fs.createReadStream("../../src/data/csv_files/confirmed.csv")
       .on("data", async (row) => {
-        const value = await row["5/17/20"];
+        const value = await row["4/28/20"];
         sequelize
           .sync()
           .then(function () {
