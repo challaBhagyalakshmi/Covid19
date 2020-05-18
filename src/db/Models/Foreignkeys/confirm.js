@@ -1,16 +1,27 @@
 const csv = require("csv-parser");
 const Sequelize = require("sequelize");
 const fs = require("fs");
-const confirm = require("../confirm.js");
-const country = require("../countries.js");
-const connection = require("../../config/connection.js");
+const confirm = require("../../../db/Models/confirm");
+const country = require("../../../db/Models/countries");
+const connection = require("../../../db/config/connection.js");
 
 const Country = country.country;
 const Confirm = confirm.Confirm;
 const sequelize = connection.sequelize;
 
+async function id_init() {
+  const id_val = await sequelize
+    .query("select * from confirm_cases order by id asc limit 1")
+    .then((data) => {
+      return data[0][0].id;
+    });
+  return id_val;
+}
+
 async function foreign_confirm() {
-  fs.createReadStream("../../../data/csv_files/confirmes.csv")
+  let id_val = await id_init();
+  console.log(id_val);
+  fs.createReadStream("../../csv_files/confirmed.csv")
     .pipe(csv())
     .on("data", async (row) => {
       const country = await row.Country;
@@ -32,11 +43,12 @@ async function foreign_confirm() {
               },
               {
                 where: {
-                  country_name: country,
+                  id: id_val,
                 },
               }
             );
           });
+          id_val++;
         });
     })
     .on("end", () => {
@@ -44,4 +56,5 @@ async function foreign_confirm() {
     });
 }
 
+foreign_confirm();
 module.exports = { foreign_confirm };
