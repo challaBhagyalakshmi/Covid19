@@ -1,15 +1,25 @@
 const csv = require("csv-parser");
 const Sequelize = require("sequelize");
 const fs = require("fs");
-const recover = require("../recovered.js");
-const country = require("../countries.js");
-const connection = require("../../config/connection.js");
+const recover = require("../../../db/Models/recovered.js");
+const country = require("../../../db/Models/countries.js");
+const connection = require("../../../db/config/connection.js");
 
 const Country = country.country;
 const Recover = recover.Recover;
 const sequelize = connection.sequelize;
 
+async function id_init() {
+  const id_val = await sequelize
+    .query("select * from confirm_cases order by id asc limit 1")
+    .then((data) => {
+      return data[0][0].id;
+    });
+  return id_val;
+}
+
 async function foreign_key_recover() {
+  let id_val = await id_init();
   fs.createReadStream("../../../data/csv_files/recovered.csv")
     .pipe(csv())
     .on("data", async (row) => {
@@ -32,11 +42,12 @@ async function foreign_key_recover() {
               },
               {
                 where: {
-                  country_name: country,
+                  id: id_val,
                 },
               }
             );
           });
+          id_val++;
         });
     })
     .on("end", () => {
