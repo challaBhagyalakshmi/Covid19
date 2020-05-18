@@ -13,13 +13,6 @@ const Confirm = sequelize.define("confirm_cases", {
     defaultValue: null,
     uniquekey: false,
   },
-  country_name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: false,
-    defaultValue: null,
-    uniquekey: false,
-  },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
