@@ -43,12 +43,11 @@ async function foreign_confirm() {
               },
               {
                 where: {
-                  id: id_val,
+                  id: id_val++,
                 },
               }
             );
           });
-          id_val++;
         });
     })
     .on("end", () => {
