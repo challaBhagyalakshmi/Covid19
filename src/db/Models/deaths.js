@@ -11,18 +11,21 @@ const Death = sequelize.define("deaths", {
     allowNull: true,
     primaryKey: false,
     defaultValue: null,
+    unique:false,
   },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
     primaryKey: false,
     defaultValue: null,
+    unique:false,
   },
   updatedAt: {
     type: Sequelize.DATE,
     allowNull: false,
     primaryKey: false,
     defaultValue: null,
+    unique:false,
   },
 });
 country.hasMany(Death, {
