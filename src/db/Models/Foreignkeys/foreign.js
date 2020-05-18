@@ -1,6 +1,6 @@
-const confirm = require("./confirm.js");
-const recover = require("./recover.js");
-const deaths = require("./deaths.js");
+const confirm = require("./confirm.js.js");
+const recover = require("./recover.js.js");
+const deaths = require("./deaths.js.js");
 
 async function main() {
   await confirm.foreign_confirm();
