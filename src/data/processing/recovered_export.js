@@ -14,7 +14,6 @@ async function recovered_data_import_db() {
         .then(function () {
           return Recover.create({
             no_of_cases_till_yesterday: data,
-            country_name: coun_name,
           });
         })
         .then((dat) => {
