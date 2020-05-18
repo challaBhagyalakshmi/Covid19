@@ -14,16 +14,16 @@ describe("Deaths model ", async () => {
   test("inserting the new record", async () => {
     fs.createReadStream("../../src/data/csv_files/deaths.csv")
       .on("data", async (row) => {
-        const value = await row["4/28/20"];
+        const value = await row["5/17/20"];
         sequelize
           .sync()
           .then(function () {
             Deaths.create({
-              no_of_cases_till_yesterday: row["4/28/20"],
+              no_of_cases_till_yesterday: row["5/17/20"],
             });
           })
           .then((data) => {
-            expect(data["4/28/20"]).toBe(value);
+            expect(data.no_of_cases_till_yesterday).toBe(value);
           });
       })
       .on("end", () => {});
