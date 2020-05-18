@@ -42,12 +42,11 @@ async function foreign_key_recover() {
               },
               {
                 where: {
-                  id: id_val,
+                  id: id_val++,
                 },
               }
             );
           });
-          id_val++;
         });
     })
     .on("end", () => {
