@@ -12,13 +12,6 @@ const Recover = sequelize.define("recovered_cases", {
     primaryKey: false,
     defaultValue: null,
   },
-  country_name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: false,
-    defaultValue: null,
-    uniquekey: false,
-  },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
