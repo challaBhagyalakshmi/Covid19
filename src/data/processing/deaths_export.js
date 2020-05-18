@@ -15,7 +15,6 @@ async function deaths_data_import_db() {
         .then(function () {
           return deaths.create({
             no_of_cases_till_yesterday: data,
-            country_name: coun_name,
           });
         })
         .then((data) => {
