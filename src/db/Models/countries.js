@@ -8,21 +8,21 @@ const country = sequelize.define("countries", {
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: true,
+    unique: true,
   },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: false,
+    unique: false,
   },
   updatedAt: {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: null,
     primaryKey: false,
-    uniqueKey: false,
+    unique: false,
   },
 });
 
