@@ -11,21 +11,21 @@ const Confirm = sequelize.define("confirm_cases", {
     allowNull: false,
     primaryKey: false,
     defaultValue: null,
-    uniquekey: false,
+    unique: false,
   },
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
     primaryKey: false,
     defaultValue: null,
-    uniquekey: false,
+    unique: false,
   },
   updatedAt: {
     type: Sequelize.DATE,
     allowNull: false,
     primaryKey: false,
     defaultValue: null,
-    uniquekey: false,
+    unique: false,
   },
 });
 country.hasMany(Confirm, {
