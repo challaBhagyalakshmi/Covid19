@@ -1,16 +1,27 @@
 const csv = require("csv-parser");
 const Sequelize = require("sequelize");
 const fs = require("fs");
-const deaths = require("../deaths.js");
-const country = require("../countries.js");
-const connection = require("../../config/connection.js");
+const deaths = require("../../../db/Models/deaths.js");
+const country = require("../../../db/Models/countries.js");
+const connection = require("../../../db/config/connection.js");
 
 const Country = country.country;
 const Deaths = deaths.Death;
 const sequelize = connection.sequelize;
 
+async function id_init() {
+  const id_val = await sequelize
+    .query("select * from confirm_cases order by id asc limit 1")
+    .then((data) => {
+      return data[0][0].id;
+    });
+  return id_val;
+}
+
 async function foreign_deaths() {
-  fs.createReadStream("../../../data/csv_files/deaths.csv")
+  let id_val = await id_init();
+  console.log(id_val);
+  fs.createReadStream("../../csv_files/death.csv")
     .pipe(csv())
     .on("data", async (row) => {
       const country = await row.Country;
@@ -32,11 +43,12 @@ async function foreign_deaths() {
               },
               {
                 where: {
-                  country_name: country,
+                  id: id_val,
                 },
               }
             );
           });
+          id_val++;
         });
     })
     .on("end", () => {
@@ -44,4 +56,5 @@ async function foreign_deaths() {
     });
 }
 
+foreign_deaths();
 module.exports = { foreign_deaths };
