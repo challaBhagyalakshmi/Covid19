@@ -10,6 +10,7 @@ const login = require("../routes/login.js");
 const signup = require("../routes/signup.js");
 const Admin = require("../routes/admin_upload");
 
+//console.log("Hello");
 const Confirm = confirm.router;
 const Recover = recover.router;
 const Deaths = deaths.router;
